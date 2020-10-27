@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_image_2"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".Login">
+
+    <ImageView
+        android:id="@+id/imgIcon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:transitionName="icon"/>
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signIn"
+        android:textColor="@color/whiteString"
+        android:textSize="40sp"
+        android:fontFamily="serif"
+        android:layout_marginTop="-20dp"
+        android:transitionName="page_purpose"/>
+
+    <TextView
+        android:id="@+id/pgHint"
+        android:layout_width="wrap_content"
+        android:layout_height="29dp"
+        android:fontFamily="serif-monospace"
+        android:text="Please Enter Your Username and Password"
+        android:textColor="@color/whiteString"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:transitionName="page_hint" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+        android:background="@color/greyBackground">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/userName"
+            android:transitionName="user_trans">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email Address"
+                android:textColorHint="@color/colourTwo"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/greyBackground">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/password"
+            app:passwordToggleEnabled="true"
+            android:transitionName="pass_trans">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Password"
+                android:textColorHint="@color/colourTwo"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/forgotP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_background_2"
+        android:text="@string/forgotPass"
+        android:textColor="@color/whiteString"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:fontFamily="serif-monospace"
+        android:transitionName="forgot_trans"
+        />
+
+    <Button
+        android:id="@+id/loginB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_background_2"
+        android:text="@string/login"
+        android:textColor="@color/whiteString"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:fontFamily="serif-monospace"
+        android:transitionName="login_trans"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background_2"
+            android:text="@string/noAcc"
+            android:textColor="@color/whiteString"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:fontFamily="serif-monospace"
+            android:id="@+id/newAcc"
+            android:transitionName="new_trans"/>
+
+    </LinearLayout>
+
+</LinearLayout>
