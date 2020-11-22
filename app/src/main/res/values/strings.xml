@@ -15,4 +15,5 @@
     <string name="createAcc">Create Account</string>
     <string name="alreadyHaveAnAccount">Already Have an Account?</string>
     <string name="noAcc">Create an Account</string>
+    <string name="title_activity_timesheet">Timesheet</string>
 </resources>
