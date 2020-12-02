@@ -9,23 +9,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
 public class Timesheet extends AppCompatActivity {
-
+    Button clockInButton;
+    Button clockOutButton;
+    ListView timeSheetView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.timesheet_fragment_2);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_timesheet);
+        clockInButton = findViewById(R.id.clockInButton);
+        clockOutButton = findViewById(R.id.clockOutButton);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+
+        clockOutButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                Toast t = Toast.makeText(getApplicationContext(),"Clocked Out",Toast.LENGTH_SHORT);
+                t.show();
             }
         });
+        clockInButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Toast t = Toast.makeText(getApplicationContext(),"Clocked In",Toast.LENGTH_SHORT);
+                t.show();
+            }
+        });
+
     }
 }
