@@ -56,6 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
+                android:textSize="15sp"
                 android:hint="Full Name"
                 android:textColorHint="@color/colourTwo"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -79,6 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
+                android:textSize="15sp"
                 android:hint="Email Address"
                 android:textColorHint="@color/colourTwo"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -101,7 +103,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
+                android:textSize="15sp"
                 android:hint="Password (Minimum of 6 characters)"
+                android:textColorHint="@color/colourTwo"/>
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/greyBackground">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/address"
+            app:passwordToggleEnabled="true"
+            android:transitionName="pass_trans">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="15sp"
+                android:hint="Enter your address"
                 android:textColorHint="@color/colourTwo"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
@@ -110,27 +138,26 @@
         android:id="@+id/createB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/button_background_2"
+        android:fontFamily="serif-monospace"
         android:text="@string/createAcc"
         android:textColor="@color/whiteString"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:fontFamily="serif-monospace"
-        android:transitionName="create_trans"
-        />
+        android:transitionName="create_trans" />
 
     <Button
         android:id="@+id/signInB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button_background_2"
+        android:fontFamily="serif-monospace"
         android:text="@string/alreadyHaveAnAccount"
         android:textColor="@color/whiteString"
         android:textSize="19sp"
         android:textStyle="bold"
-        android:fontFamily="serif-monospace"
-        android:transitionName="signIn_trans"/>
+        android:transitionName="signIn_trans" />
 </LinearLayout>

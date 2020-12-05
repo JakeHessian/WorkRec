@@ -7,6 +7,7 @@ import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -80,8 +81,8 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(ACTIVITY_NAME, "User clicked Login");
-                String email = username.toString().trim();
-                String getPass = password.toString().trim();
+                String email = username.getEditText().getText().toString().trim();
+                String getPass = password.getEditText().getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)){
                     username.setError("Email is required");
@@ -98,7 +99,7 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
-                mAuth.createUserWithEmailAndPassword(email, getPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.signInWithEmailAndPassword(email, getPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
