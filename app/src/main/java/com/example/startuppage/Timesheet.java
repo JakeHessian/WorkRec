@@ -1,32 +1,16 @@
 package com.example.startuppage;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,13 +21,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firestore.v1.WriteResult;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -59,12 +47,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static java.lang.Thread.sleep;
-
 /*
 TODO get user id from firebase
-TODO get work address from firebase
-TODO export db to excel or google sheets... actually easy
+    TODO get work address from firebase
+TODO request user perms for locaiton
+TODO Extra: export db to excel or google sheets... actually easy
+
  */
 public class Timesheet extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "TimeSheet";
@@ -74,6 +62,7 @@ public class Timesheet extends AppCompatActivity {
     ArrayList<Record> recordArray;
     ListView timeSheetView;
     RecordAdapter adapter;
+    String currentFirebaseUser;
     TextView timeView;
     //LocationService.
     boolean inOutFlag = false;
@@ -84,6 +73,14 @@ public class Timesheet extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     String currentAddress;
     String workAddress = "75 University Ave W, Waterloo, ON N2L 3C5, Canada";
+
+    public void getUser() {
+        // Login.
+        //Login.class.
+        //String currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser().getUid() ;
+        //Toast.makeText(this, "" + currentFirebaseUser, Toast.LENGTH_SHORT).show();
+        return;
+    }
 
     public void checkLocation() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -126,6 +123,7 @@ public class Timesheet extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkLocation();
+
         TimesheetDatabaseHelper dbHelper = new TimesheetDatabaseHelper(this);
         localDb = dbHelper.getWritableDatabase();
         loadFromDb();
@@ -137,7 +135,7 @@ public class Timesheet extends AppCompatActivity {
         timeSheetView = findViewById(R.id.timeSheetView);
         timeView = findViewById(R.id.inTimeView);
         submitButton = findViewById(R.id.submitButton);
-
+        //getUser();
         recordArray = new ArrayList<>();
         recordArray = loadFromDb();
 
@@ -387,6 +385,9 @@ public class Timesheet extends AppCompatActivity {
             return Double.toString(round(difference / 3600, 2));
         }
 
+    }
+
+    public void exportDb() {
     }
 
     @Override
