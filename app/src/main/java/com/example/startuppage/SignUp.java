@@ -11,8 +11,10 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +39,10 @@ public class SignUp extends AppCompatActivity {
     public Button btnSignIn;
     public ImageView imgIcon;
     public TextView headerS, pgHint;
-    public TextInputLayout fullName, username, password;
+    public TextInputLayout fullName, username, password, address;
     protected static final String ACTIVITY_NAME = "SignUp";
     public Pair[] pairs = new Pair[8];
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class SignUp extends AppCompatActivity {
         fullName = findViewById(R.id.fullName);
         username = findViewById(R.id.userName);
         password = findViewById(R.id.password);
+        address = findViewById(R.id.address);
 
         btnC.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +68,7 @@ public class SignUp extends AppCompatActivity {
                 final String email = username.getEditText().getText().toString().trim();
                 String getPass = password.getEditText().getText().toString().trim();
                 final String getName = fullName.getEditText().getText().toString();
+                final String getAddress = address.getEditText().getText().toString();
 
                 if (TextUtils.isEmpty(email)){
                     username.setError("Email is required");
@@ -90,6 +95,7 @@ public class SignUp extends AppCompatActivity {
                             Map<String, Object> user = new HashMap<>();
                             user.put("fName", getName);
                             user.put("email", email);
+                            user.put("address", getAddress);
                             docR.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

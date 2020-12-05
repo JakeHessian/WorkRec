@@ -16,4 +16,8 @@
     <string name="alreadyHaveAnAccount">Already Have an Account?</string>
     <string name="noAcc">Create an Account</string>
     <string name="title_activity_timesheet">Timesheet</string>
+    <string-array name="position">
+        <item>Employee</item>
+        <item>Manager</item>
+    </string-array>
 </resources>
