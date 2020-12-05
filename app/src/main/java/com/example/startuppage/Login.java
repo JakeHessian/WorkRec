@@ -1,22 +1,35 @@
 package com.example.startuppage;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends AppCompatActivity {
-
+    private FirebaseAuth mAuth;
     public Button btnF;
     public Button btnL;
     public Button btnCN;
@@ -25,12 +38,15 @@ public class Login extends AppCompatActivity {
     public TextInputLayout username , password;
     protected static final String ACTIVITY_NAME = "Login";
     public Pair[] pairs = new Pair[8];
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
+        mAuth = FirebaseAuth.getInstance();
         Log.i(ACTIVITY_NAME, "User entered login page");
         btnF = findViewById(R.id.forgotP);
         btnL = findViewById(R.id.loginB);
@@ -43,7 +59,7 @@ public class Login extends AppCompatActivity {
         btnCN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(ACTIVITY_NAME, "User clicked Login");
+                Log.i(ACTIVITY_NAME, "User clicked Create an account");
                 Intent intent = new Intent(Login.this, SignUp.class);
 
                 pairs[0] = new Pair<View,String>(img, "icon");
@@ -57,6 +73,79 @@ public class Login extends AppCompatActivity {
 
                 ActivityOptions activityO2 = ActivityOptions.makeSceneTransitionAnimation(Login.this,pairs);
                 startActivity(intent, activityO2.toBundle());
+            }
+        });
+
+        btnL.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.i(ACTIVITY_NAME, "User clicked Login");
+                String email = username.toString().trim();
+                String getPass = password.toString().trim();
+
+                if (TextUtils.isEmpty(email)){
+                    username.setError("Email is required");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(getPass)){
+                    password.setError("Password is required");
+                    return;
+                }
+
+                if (getPass.length() < 6){
+                    password.setError("Password must contain 6 or more characters");
+                    return;
+                }
+
+                mAuth.createUserWithEmailAndPassword(email, getPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(Login.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Login.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
+
+        btnF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText resetPass = new EditText(v.getContext());
+                AlertDialog.Builder passResetDialog = new AlertDialog.Builder(v.getContext());
+                passResetDialog.setTitle("Reset Password?");
+                passResetDialog.setMessage("Enter your email to receive you password reset link");
+                passResetDialog.setView(resetPass);
+
+                passResetDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String email = resetPass.getText().toString();
+                        mAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(Login.this, "Reset link has been sent to your email", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(Login.this, "Error: Reset link can't be sent - " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                passResetDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                passResetDialog.create().show();
             }
         });
 

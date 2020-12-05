@@ -101,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:hint="Password"
+                android:hint="Password (Minimum of 6 characters)"
                 android:textColorHint="@color/colourTwo"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
