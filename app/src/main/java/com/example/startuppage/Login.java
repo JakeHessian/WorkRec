@@ -4,7 +4,6 @@ import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -105,13 +104,15 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Login.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(Login.this, Timesheet.class);
+                            i.putExtra("USERID", mAuth.getCurrentUser().getUid());
+                            startActivity(i);
                         } else {
                             Toast.makeText(Login.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
-                Intent i = new Intent(Login.this, Timesheet.class);
-                startActivity(i);
+
             }
         });
 

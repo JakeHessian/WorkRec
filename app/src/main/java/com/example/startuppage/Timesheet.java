@@ -28,9 +28,12 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
@@ -47,10 +50,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import pub.devrel.easypermissions.EasyPermissions;
+
 /*
-TODO get user id from firebase
-    TODO get work address from firebase
-TODO request user perms for locaiton
+TODO request user perms for Location
 TODO Extra: export db to excel or google sheets... actually easy
 
  */
@@ -72,29 +75,34 @@ public class Timesheet extends AppCompatActivity {
     //location
     private FusedLocationProviderClient fusedLocationClient;
     String currentAddress;
-    String workAddress = "75 University Ave W, Waterloo, ON N2L 3C5, Canada";
+    String workAddress;//= "75 University Ave W, Waterloo, ON N2L 3C5, Canada";
 
-    public void getUser() {
-        // Login.
-        //Login.class.
-        //String currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser().getUid() ;
-        //Toast.makeText(this, "" + currentFirebaseUser, Toast.LENGTH_SHORT).show();
+    public void getWorkAddress() {
+        //db.collection("users").document(currentFirebaseUser).collection("records")
+        DocumentReference df = db.collection("users").document(currentFirebaseUser);
+        df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot doc = task.getResult();
+                if (doc != null) {
+                    Log.i(ACTIVITY_NAME, "Firestore: work address: " + doc.getString("address"));
+                    workAddress = doc.getString("address");
+                } else {
+                    Log.i(ACTIVITY_NAME, "Error: getting user work address.");
+                }
+            }
+        });
         return;
     }
 
     public void checkLocation() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.e(ACTIVITY_NAME, "User has not granted location permissions.");
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+            String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
+            EasyPermissions.requestPermissions(this, "Please grant the location permission", 1, perms);
         }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
@@ -130,6 +138,10 @@ public class Timesheet extends AppCompatActivity {
 
         setContentView(R.layout.activity_timesheet);
 
+        currentFirebaseUser = getIntent().getStringExtra("USERID"); // getuserID from previous intent
+        getWorkAddress();
+        Log.i(ACTIVITY_NAME, "User id: " + currentFirebaseUser);
+
         clockInButton = findViewById(R.id.clockInButton);
         clockOutButton = findViewById(R.id.clockOutButton);
         timeSheetView = findViewById(R.id.timeSheetView);
@@ -147,7 +159,13 @@ public class Timesheet extends AppCompatActivity {
                 checkLocation();
                 if (inOutFlag == false) {
                     checkLocation();
-                    if (currentAddress.compareTo(workAddress) == 0) {
+                    Log.i(ACTIVITY_NAME, "work address: " + workAddress);
+                    Log.i(ACTIVITY_NAME, "current address " + currentAddress);
+                    if (currentAddress == null) {
+                        Log.e(ACTIVITY_NAME, "Error: currentLocation = null");
+                        return;
+                    }
+                    if (currentAddress.toLowerCase().contains(workAddress.toLowerCase())) {
                         Toast t = Toast.makeText(getApplicationContext(), "Clocked In", Toast.LENGTH_SHORT);
                         t.show();
                         Date dateObject = new Date();
@@ -168,7 +186,9 @@ public class Timesheet extends AppCompatActivity {
             public void onClick(View v) {
                 if (timeView.getText().toString().compareTo("Clocked out") != 0) {
                     checkLocation();
-                    if (currentAddress.compareTo(workAddress) == 0) {
+                    Log.i(ACTIVITY_NAME, "work address: " + workAddress);
+                    Log.i(ACTIVITY_NAME, "current address " + currentAddress);
+                    if (currentAddress.toLowerCase().contains(workAddress.toLowerCase())) {
                         Toast t = Toast.makeText(getApplicationContext(), "Clocked Out", Toast.LENGTH_SHORT);
                         t.show();
                         String clockInText = timeView.getText().toString();
@@ -213,7 +233,7 @@ public class Timesheet extends AppCompatActivity {
         record.put("StartTime", startTime);
         record.put("EndTime", endTime);
         record.put("Hours", hours);
-        db.collection("users").document("bAhkhSp50uXtI48fx9rLhdFpXEd2").collection("records")
+        db.collection("users").document(currentFirebaseUser).collection("records")
                 .add(record)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
