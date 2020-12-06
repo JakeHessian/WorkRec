@@ -14,8 +14,13 @@
     <string name="forgotPass">Forgot Password?</string>
     <string name="createAcc">Create Account</string>
     <string name="alreadyHaveAnAccount">Already Have an Account?</string>
-    <string name="title_activity_timesheet">sad Have an Account?</string>
     <string name="noAcc">Create an Account</string>
-    <string name="searchForReportButton">Search</string>
-    <string name="searchForReportHint">Search for first name, or last name</string>
+<<<<<<<<< Temporary merge branch 1
+    <string name="title_activity_timesheet">Timesheet</string>
+=========
+    <string-array name="position">
+        <item>Employee</item>
+        <item>Manager</item>
+    </string-array>
+>>>>>>>>> Temporary merge branch 2
 </resources>
