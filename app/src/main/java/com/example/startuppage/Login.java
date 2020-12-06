@@ -57,6 +57,7 @@ public class Login extends AppCompatActivity {
         pgHint = findViewById(R.id.pgHint);
         username = findViewById(R.id.userName);
         password = findViewById(R.id.password);
+
         btnCN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,26 +85,29 @@ public class Login extends AppCompatActivity {
                 String email = username.getEditText().getText().toString().trim();
                 String getPass = password.getEditText().getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)){
-                    username.setError("Email is required");
-                    return;
-                }
+//                if (TextUtils.isEmpty(email)){
+//                    username.setError("Email is required");
+//                    return;
+//                }
+//
+//                if (TextUtils.isEmpty(getPass)){
+//                    password.setError("Password is required");
+//                    return;
+//                }
+//
+//                if (getPass.length() < 6){
+//                    password.setError("Password must contain 6 or more characters");
+//                    return;
+//                }
 
-                if (TextUtils.isEmpty(getPass)){
-                    password.setError("Password is required");
-                    return;
-                }
-
-                if (getPass.length() < 6){
-                    password.setError("Password must contain 6 or more characters");
-                    return;
-                }
-
-                mAuth.signInWithEmailAndPassword(email, getPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.signInWithEmailAndPassword("1379.arman@gmail.com", "Arm123!!").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Login.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
+                            Intent mIntent = new Intent(Login.this, Reporting.class);
+                            startActivity(mIntent);
+
                         } else {
                             Toast.makeText(Login.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }

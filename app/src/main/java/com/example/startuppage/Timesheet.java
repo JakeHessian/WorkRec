@@ -111,6 +111,7 @@ public class Timesheet extends AppCompatActivity {
 
                             try {
                                 address = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                                Log.i("SUCCESS GEOLOCATING", String.valueOf(address));
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -146,7 +147,11 @@ public class Timesheet extends AppCompatActivity {
         clockInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.i(ACTIVITY_NAME, "Submisdast button pressed.");
+
                 checkLocation();
+                Log.i(ACTIVITY_NAME, "Submiast button pressed.");
+
                 if (inOutFlag == false) {
                     checkLocation();
                     if (currentAddress.compareTo(workAddress) == 0) {
