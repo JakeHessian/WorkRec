@@ -1,32 +1,33 @@
-package com.example.startuppage;
 
-import android.app.ActivityOptions;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.util.Pair;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+        package com.example.startuppage;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+        import android.app.ActivityOptions;
+        import android.app.AlertDialog;
+        import android.content.DialogInterface;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.text.TextUtils;
+        import android.util.Log;
+        import android.util.Pair;
+        import android.view.View;
+        import android.view.WindowManager;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.ImageView;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
+        import androidx.annotation.NonNull;
+        import androidx.appcompat.app.AppCompatActivity;
+
+        import com.google.android.gms.tasks.OnCompleteListener;
+        import com.google.android.gms.tasks.OnFailureListener;
+        import com.google.android.gms.tasks.OnSuccessListener;
+        import com.google.android.gms.tasks.Task;
+        import com.google.android.material.textfield.TextInputLayout;
+        import com.google.firebase.auth.AuthResult;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends AppCompatActivity {
     public FirebaseAuth mAuth;
@@ -84,27 +85,27 @@ public class Login extends AppCompatActivity {
                 String email = username.getEditText().getText().toString().trim();
                 String getPass = password.getEditText().getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)){
-                    username.setError("Email is required");
-                    return;
-                }
+//                if (TextUtils.isEmpty(email)){
+//                    username.setError("Email is required");
+//                    return;
+//                }
+//
+//                if (TextUtils.isEmpty(getPass)){
+//                    password.setError("Password is required");
+//                    return;
+//                }
+//
+//                if (getPass.length() < 6){
+//                    password.setError("Password must contain 6 or more characters");
+//                    return;
+//                }
 
-                if (TextUtils.isEmpty(getPass)){
-                    password.setError("Password is required");
-                    return;
-                }
-
-                if (getPass.length() < 6){
-                    password.setError("Password must contain 6 or more characters");
-                    return;
-                }
-
-                mAuth.signInWithEmailAndPassword(email, getPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.signInWithEmailAndPassword("1379.arman@gmail.com", "Arm123!!").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Login.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(Login.this, Timesheet.class);
+                            Intent i = new Intent(Login.this, Reporting.class);
                             i.putExtra("USERID", mAuth.getCurrentUser().getUid());
                             startActivity(i);
                         } else {

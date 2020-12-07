@@ -100,6 +100,8 @@ public class SignUp extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d("Store to Database - ", "User Profile: " + userID + " has been created");
+                                    Intent mIntent = new Intent(SignUp.this, Login.class);
+                                    startActivity(mIntent);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override

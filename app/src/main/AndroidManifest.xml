@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.startuppage">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -12,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".discussion_post"></activity>
-        <activity android:name=".SignUp" />
+        <activity android:name=".Reporting"></activity>
+        <activity android:name=".SignUp"></activity>
         <activity android:name=".Login" />
         <activity android:name=".Timesheet"/>
         <activity android:name=".MainActivity">
