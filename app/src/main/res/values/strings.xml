@@ -17,7 +17,7 @@
     <string name="noAcc">Create an Account</string>
     <string name="title_activity_timesheet">Timesheet</string>
     <string name="searchForReportButton">Search</string>
-    <string name="searchForReportHint">Search for name or email</string>
+    <string name="searchForReportHint">Day of the Month</string>
     <string-array name="position">
         <item>Employee</item>
         <item>Manager</item>

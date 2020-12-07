@@ -55,7 +55,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 /*
 TODO request user perms for Location
 TODO Extra: export db to excel or google sheets... actually easy
-
  */
 public class Timesheet extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "TimeSheet";
@@ -110,19 +109,19 @@ public class Timesheet extends AppCompatActivity {
                         // Got last known location. In some rare situations this can be null.
                         List<Address> address = null;
                         if (location != null) {
-                            //Log.i(ACTIVITY_NAME, "Found user Location");
+                            Log.i(ACTIVITY_NAME, "Found user Location");
                             Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                             //List<Address> address ;
 
                             try {
                                 address = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                                Log.i("SUCCESS GEOLOCATING", String.valueOf(address));
+                                currentAddress = address.get(0).getAddressLine(0);//address.get(0).toString();
+
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
 
-                        currentAddress = address.get(0).getAddressLine(0);//address.get(0).toString();
                         //Log.i(ACTIVITY_NAME, currentAddress);
                     }
                 });
@@ -130,7 +129,8 @@ public class Timesheet extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);        Log.i(ACTIVITY_NAME, "Started");
+
         checkLocation();
 
         TimesheetDatabaseHelper dbHelper = new TimesheetDatabaseHelper(this);
@@ -157,11 +157,7 @@ public class Timesheet extends AppCompatActivity {
         clockInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(ACTIVITY_NAME, "Submisdast button pressed.");
-
                 checkLocation();
-                Log.i(ACTIVITY_NAME, "Submiast button pressed.");
-
                 if (inOutFlag == false) {
                     checkLocation();
                     Log.i(ACTIVITY_NAME, "work address: " + workAddress);
