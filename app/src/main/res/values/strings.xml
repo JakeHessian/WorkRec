@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">StartUpPage</string>
+    <string name="app_name">WorkRec</string>
     <string name="getStarted">Get Started</string>
     <string name="title">Check-In</string>
     <color name="colourOne">#FFA500</color>
@@ -29,8 +29,23 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
+    <!--    issa's stuff-->
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu">Menu</string>
+    <string name="log_out">Logout</string>
+    <string name="discussiontxt">Discussion</string>
+    <string name="descImg">TODO</string>
+    <string name="timesheettxt">Timesheet</string>
+    <string name="reporttxt">Report</string>
+    -
+    <string name="goRight">
+-<![CDATA[>]]>
+</string>
+    -
+    <string name="goRight2">
+
+-<![CDATA[>]]>
+</string>
 </resources>

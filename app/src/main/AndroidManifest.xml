@@ -12,11 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".discussion_post"></activity>
-        <activity android:name=".Reporting"></activity>
-        <activity android:name=".SignUp"></activity>
+        <activity android:name=".discussion_post" />
+        <activity android:name=".Reporting" />
+        <activity android:name=".SignUp" />
         <activity android:name=".Login" />
-        <activity android:name=".Timesheet"/>
+        <activity android:name=".Timesheet" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
