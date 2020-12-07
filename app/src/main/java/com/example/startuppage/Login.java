@@ -1,13 +1,9 @@
 package com.example.startuppage;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,13 +29,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends AppCompatActivity {
-    private FirebaseAuth mAuth;
+    public FirebaseAuth mAuth;
+    public String fireBaseUserId;
     public Button btnF;
     public Button btnL;
     public Button btnCN;
     public ImageView img;
     public TextView headerS, pgHint;
-    public TextInputLayout username , password;
+    public TextInputLayout username, password;
     protected static final String ACTIVITY_NAME = "Login";
     public Pair[] pairs = new Pair[8];
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -104,11 +104,15 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Login.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(Login.this, Timesheet.class);
+                            i.putExtra("USERID", mAuth.getCurrentUser().getUid());
+                            startActivity(i);
                         } else {
                             Toast.makeText(Login.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
+
             }
         });
 
