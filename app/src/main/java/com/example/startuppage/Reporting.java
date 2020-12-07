@@ -73,67 +73,76 @@ public class Reporting extends AppCompatActivity {
         Spinner s = (Spinner) findViewById(R.id.monthDropDown);
         String currentSelectMonthStr = s.getSelectedItem().toString();
 
-            lineChat.setVisibility(View.VISIBLE);
-            barChart.setVisibility(View.GONE);
+        lineChat.setVisibility(View.VISIBLE);
+        barChart.setVisibility(View.GONE);
 
-            List<Entry> entries = new ArrayList<Entry>();
-            ArrayList<String> dataLoad = new ArrayList<String>();
-            Float total = new Float(0.0);
-            String currentSelectedDayStr = currentSelectedDay.getText().toString();
-            for (QueryDocumentSnapshot data : result) {
-                String Day = data.get("Date").toString().split("/")[2];
-                String StartHour = data.get("StartTime").toString().split(":")[0];
-                String EndHour = data.get("EndTime").toString().split(":")[0];
-                String Month = data.get("Date").toString().split("/")[1];
-                String Year = data.get("Date").toString().split("/")[0];
-                Log.i("Records ", data.getData().toString());
-                Object temp = data.get("Hours");
-                int currentSelectedMonthIndex = -1;
-                for (int i=0;i<months.length;i++) {
-                    if (months[i].equals(currentSelectMonthStr)) {
-                        currentSelectedMonthIndex = i;
-                        break;
-                    }
-                }
-                Log.i("Records ", "xxxx ");
-
-                if(currentSelectedMonthIndex==Integer.valueOf(Month)-1) {
-                    if(!currentSelectedDayStr.isEmpty()){
-                        Log.i("Records ", "no day " +currentSelectedDayStr);
-                        Log.i("Records ", currentSelectedDayStr);
-                        if(currentSelectedDayStr.equals(Day)){
-                            entries.add(new Entry(Float.valueOf(StartHour), total));
-                            total+=Float.valueOf(temp.toString());
-                            entries.add(new Entry(Float.valueOf(EndHour), total));
-
-                        }
-                    }else{
-                        Log.i("Records ", currentSelectedDayStr);
-                        Log.i("Records ", Day);
-                        Log.i("Records ", "yes day ");
-
-                        entries.add(new Entry(Float.valueOf(Day), Float.valueOf(temp.toString())));
-                    }
-                }else{
-                    Log.i("Records ", String.valueOf(currentSelectedMonthIndex));
-                    Log.i("Records ", String.valueOf(Integer.valueOf(Month)));
-
+        List<Entry> entries = new ArrayList<Entry>();
+        ArrayList<String> dataLoad = new ArrayList<String>();
+        Float total = new Float(0.0);
+        String currentSelectedDayStr = currentSelectedDay.getText().toString();
+        for (QueryDocumentSnapshot data : result) {
+            String Day = data.get("Date").toString().split("/")[2];
+            String StartHour = data.get("StartTime").toString().split(":")[0];
+            String StartMin = data.get("StartTime").toString().split(":")[1];
+            String EndMin = data.get("EndTime").toString().split(":")[1];
+            String EndHour = data.get("EndTime").toString().split(":")[0];
+            String Month = data.get("Date").toString().split("/")[1];
+            String Year = data.get("Date").toString().split("/")[0];
+            Log.i("Records ", data.getData().toString());
+            Object temp = data.get("Hours");
+            int currentSelectedMonthIndex = -1;
+            for (int i=0;i<months.length;i++) {
+                if (months[i].equals(currentSelectMonthStr)) {
+                    currentSelectedMonthIndex = i;
+                    break;
                 }
             }
-            Log.i("Records ", "xxxxasdasd ");
-            totalThisWeek = total;
-            Collections.sort(entries, new EntryXComparator());
-            LineDataSet dataSet = new LineDataSet(entries, months[currentMonth] + " "+ currentSelectedDayStr); // add entries to dataset
+            Log.i("Records ", "xxxx ");
+
+            if(currentSelectedMonthIndex==Integer.valueOf(Month)-1) {
+                if(!currentSelectedDayStr.isEmpty()){
+                    Log.i("Records ", "no day " +currentSelectedDayStr);
+                    Log.i("Records ", currentSelectedDayStr);
+                    if(currentSelectedDayStr.equals(Day)){
+                        entries.add(new Entry(Float.valueOf(StartHour) + Float.valueOf(StartMin)/60, total));
+                        total+=Float.valueOf(temp.toString());
+                        entries.add(new Entry(Float.valueOf(EndHour) + Float.valueOf(EndMin)/60, total));
+
+                    }
+                }else{
+                    Float totalHours = new Float(0);
+                    for (QueryDocumentSnapshot each : result) {
+                        String eachDay = each.get("Date").toString().split("/")[2];
+                        Object tempHour = each.get("Hours");
+                        if(eachDay.equals(Day)){
+                            totalHours += Float.valueOf(tempHour.toString());
+                        }
+                    }
+                    Log.i("Records ", currentSelectedDayStr);
+                    Log.i("Records ", Day);
+                    Log.i("Records ", "yes day ");
+                    entries.add(new Entry(Float.valueOf(Day), totalHours));
+                }
+            }else{
+                Log.i("Records ", String.valueOf(currentSelectedMonthIndex));
+                Log.i("Records ", String.valueOf(Integer.valueOf(Month)));
+
+            }
+        }
+        Log.i("Records ", "xxxxasdasd ");
+        totalThisWeek = total;
+        Collections.sort(entries, new EntryXComparator());
+        LineDataSet dataSet = new LineDataSet(entries, months[currentMonth] + " "+ currentSelectedDayStr); // add entries to dataset
         dataSet.setCircleSize(10);
-            LineData lineData = new LineData(dataSet);
+        LineData lineData = new LineData(dataSet);
         lineData.setValueTextSize(15);
-            Log.i("Records as", "xxxx ");
+        Log.i("Records as", "xxxx ");
 
 
-            lineChat.setData(lineData);
-            Log.i("Records as", "xxxx ");
+        lineChat.setData(lineData);
+        Log.i("Records as", "xxxx ");
 
-            lineChat.invalidate(); // refresh
+        lineChat.invalidate(); // refresh
         handleTitles();
 
 
@@ -144,7 +153,7 @@ public class Reporting extends AppCompatActivity {
         lineChat.setVisibility(View.GONE);
         barChart.setVisibility(View.VISIBLE);
         Spinner s = (Spinner) findViewById(R.id.monthDropDown);
-               String currentSelectMonthStr = s.getSelectedItem().toString();
+        String currentSelectMonthStr = s.getSelectedItem().toString();
         Float total = new Float(0.0);
         String currentSelectedDayStr = currentSelectedDay.getText().toString();
         if(currentSelectMonthStr!=null){
@@ -153,9 +162,11 @@ public class Reporting extends AppCompatActivity {
             ArrayList<String> dataLoad = new ArrayList<String>();
             for (QueryDocumentSnapshot data : result) {
                 String Day = data.get("Date").toString().split("/")[2];
-                String Month = data.get("Date").toString().split("/")[1];
                 String StartHour = data.get("StartTime").toString().split(":")[0];
+                String StartMin = data.get("StartTime").toString().split(":")[1];
+                String EndMin = data.get("EndTime").toString().split(":")[1];
                 String EndHour = data.get("EndTime").toString().split(":")[0];
+                String Month = data.get("Date").toString().split("/")[1];
                 String Year = data.get("Date").toString().split("/")[0];
                 Log.i("Records ", data.getData().toString());
                 Object temp = data.get("Hours");
@@ -171,17 +182,24 @@ public class Reporting extends AppCompatActivity {
                         Log.i("Records ", "no day " +currentSelectedDayStr);
                         Log.i("Records ", currentSelectedDayStr);
                         if(currentSelectedDayStr.equals(Day)){
-                            entries.add(new BarEntry(Float.valueOf(StartHour), new Float(0)));
+                            entries.add(new BarEntry(Float.valueOf(StartHour) + Float.valueOf(StartMin)/60, new Float(0)));
                             total+=Float.valueOf(temp.toString());
-                            entries.add(new BarEntry(Float.valueOf(EndHour), total));
+                            entries.add(new BarEntry(Float.valueOf(EndHour) + Float.valueOf(EndMin)/60, total));
 
                         }
                     }else{
                         Log.i("Records ", currentSelectedDayStr);
                         Log.i("Records ", Day);
                         Log.i("Records ", "yes day ");
-
-                        entries.add(new BarEntry(Float.valueOf(Day), Float.valueOf(temp.toString())));
+                        Float totalHours = new Float(0);
+                        for (QueryDocumentSnapshot each : result) {
+                            String eachDay = each.get("Date").toString().split("/")[2];
+                            Object tempHour = each.get("Hours");
+                            if(eachDay.equals(Day)){
+                                totalHours += Float.valueOf(tempHour.toString());
+                            }
+                        }
+                        entries.add(new BarEntry(Float.valueOf(Day), totalHours));
                     }
                 }else{
                     Log.i("Records ", String.valueOf(currentSelectedMonthIndex));
@@ -209,7 +227,7 @@ public class Reporting extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     QuerySnapshot result = task.getResult();
                     for (QueryDocumentSnapshot document: result
-                         ) {
+                    ) {
                         Log.i("Reportasdasding ", document.getData().toString());
                     }
 
@@ -220,7 +238,7 @@ public class Reporting extends AppCompatActivity {
             }
         });
     }
-        private void createUserChart (String uid){
+    private void createUserChart (String uid){
         db.collection("users").document(uid).collection("records")
                 .get() .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -244,7 +262,7 @@ public class Reporting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reporting);
-         currentSelectedDay = findViewById(R.id.searchField);
+        currentSelectedDay = findViewById(R.id.searchField);
 //        Chart toggle
         Button chartToggle =  findViewById(R.id.chartToggle);
         chartToggle.setOnClickListener(new View.OnClickListener(){
@@ -348,7 +366,7 @@ public class Reporting extends AppCompatActivity {
         if (user != null) {
             // Name, email address, and profile photo Url
             String userId = user.getUid();
-return userId;
+            return userId;
         }
         else{
             return null;
