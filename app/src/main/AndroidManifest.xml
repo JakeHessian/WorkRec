@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".discussion_post" />
+        <activity android:name=".Discussion" />
         <activity android:name=".Reporting" />
         <activity android:name=".SignUp" />
         <activity android:name=".Login" />
