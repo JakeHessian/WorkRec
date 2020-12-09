@@ -48,4 +48,20 @@
 
 -<![CDATA[>]]>
 </string>
+    <string name="clock_in">Clock In</string>
+    <string name="clock_out">Clock out</string>
+    <string name="not_clocked_in">Not Clocked In</string>
+    <string name="date">Date</string>
+    <string name="clock_in_time">Clock In Time</string>
+    <string name="clock_out_time">Clock Out Time</string>
+    <string name="submit">Submit</string>
+    <string name="total_hours">Total Hours</string>
+    <string name="clockedOutText">Clocked out</string>
+    <string name="add_sick_day">Add Sick Day</string>
+    <string name="view_schedule">View Schedule</string>
+    <string name="help">Help</string>
+    <string name="timesheet_help">
+        Timesheet help: \n Tap the clock in button to clock in. To clock out tap the clock out button. The app will automatically store your time record.
+        Tap submit when you\'re ready to submit to firebase.
+    </string>
 </resources>

@@ -13,6 +13,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -24,7 +27,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -53,14 +58,14 @@ import java.util.Map;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /*
-TODO request user perms for Location
-TODO Extra: export db to excel or google sheets... actually easy
+TODO https://stackoverflow.com/questions/13341560/how-to-create-a-custom-dialog-box-in-android
  */
 public class Timesheet extends AppCompatActivity {
     protected static final String ACTIVITY_NAME = "TimeSheet";
     Button clockInButton;
     Button clockOutButton;
     Button submitButton;
+    Toolbar toolbar;
     ArrayList<Record> recordArray;
     ListView timeSheetView;
     RecordAdapter adapter;
@@ -76,70 +81,66 @@ public class Timesheet extends AppCompatActivity {
     String currentAddress;
     String workAddress;//= "75 University Ave W, Waterloo, ON N2L 3C5, Canada";
 
-    public void getWorkAddress() {
-        //db.collection("users").document(currentFirebaseUser).collection("records")
-        DocumentReference df = db.collection("users").document(currentFirebaseUser);
-        df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot doc = task.getResult();
-                if (doc != null) {
-                    Log.i(ACTIVITY_NAME, "Firestore: work address: " + doc.getString("address"));
-                    workAddress = doc.getString("address");
-                } else {
-                    Log.i(ACTIVITY_NAME, "Error: getting user work address.");
-                }
-            }
-        });
+    public void checkUserID() {
+
+        currentFirebaseUser = getIntent().getStringExtra("USERID"); // getuserID from previous intent
+        if (currentFirebaseUser == null) {
+            Log.i(ACTIVITY_NAME, "Error getting USERID... setting defualt user.");
+            //fail safe incase USERID is not passed with intent
+            currentFirebaseUser = "57vcmUkQZLhnEO8sRn42ojlvfmn2";
+        }
         return;
     }
 
-    public void checkLocation() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_timesheet, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.e(ACTIVITY_NAME, "User has not granted location permissions.");
-            String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
-            EasyPermissions.requestPermissions(this, "Please grant the location permission", 1, perms);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Log.i(ACTIVITY_NAME, "user selected something.");
+        switch (item.getItemId()) {
+            case R.id.action_help:
+                //timeSheetView.setVisibility(View.GONE);
+                timesheet_help fragment = new timesheet_help();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim);
+                ft.replace(R.id.frame, fragment);
+                ft.commit();
+                return true;
+            case R.id.action_sick:
+                Toast.makeText(this, "sick", Toast.LENGTH_SHORT)
+                        .show();
+                return true;
+            case R.id.action_view:
+                Toast.makeText(this, "view", Toast.LENGTH_SHORT)
+                        .show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        List<Address> address = null;
-                        if (location != null) {
-                            Log.i(ACTIVITY_NAME, "Found user Location");
-                            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                            //List<Address> address ;
-
-                            try {
-                                address = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                                currentAddress = address.get(0).getAddressLine(0);//address.get(0).toString();
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        //Log.i(ACTIVITY_NAME, currentAddress);
-                    }
-                });
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);        Log.i(ACTIVITY_NAME, "Started");
-
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_timesheet);
+        Log.i(ACTIVITY_NAME, "Started");
+        toolbar = findViewById(R.id.timeSheetToolbar);
+        toolbar.inflateMenu(R.menu.toolbar_timesheet);
+        toolbar.setTitle("Timesheet");
+        setSupportActionBar(toolbar);
         checkLocation();
 
         TimesheetDatabaseHelper dbHelper = new TimesheetDatabaseHelper(this);
         localDb = dbHelper.getWritableDatabase();
         loadFromDb();
-
-        setContentView(R.layout.activity_timesheet);
-
-        currentFirebaseUser = getIntent().getStringExtra("USERID"); // getuserID from previous intent
+        checkUserID();
+        //currentFirebaseUser = getIntent().getStringExtra("USERID"); // getuserID from previous intent
         getWorkAddress();
         Log.i(ACTIVITY_NAME, "User id: " + currentFirebaseUser);
 
@@ -154,6 +155,7 @@ public class Timesheet extends AppCompatActivity {
 
         adapter = new RecordAdapter(this);
         timeSheetView.setAdapter(adapter);
+
         clockInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,7 +205,7 @@ public class Timesheet extends AppCompatActivity {
                         writeToDb(r);
                         adapter.notifyDataSetChanged();
                         inOutFlag = false;
-                        timeView.setText("Clocked out");
+                        timeView.setText(R.string.clockedOutText);
                     } else {
                         Toast t = Toast.makeText(getApplicationContext(), "Error: User not at work", Toast.LENGTH_SHORT);
                         t.show();
@@ -415,8 +417,55 @@ public class Timesheet extends AppCompatActivity {
     public void onStop() {
         super.onStop();
     }
-//    private void startLocationUpdates(){
-//
-//        return;
-//}
+
+    public void getWorkAddress() {
+        //db.collection("users").document(currentFirebaseUser).collection("records")
+        DocumentReference df = db.collection("users").document(currentFirebaseUser);
+        df.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot doc = task.getResult();
+                if (doc != null) {
+                    Log.i(ACTIVITY_NAME, "Firestore: work address: " + doc.getString("address"));
+                    workAddress = doc.getString("address");
+                } else {
+                    Log.i(ACTIVITY_NAME, "Error: getting user work address.");
+                }
+            }
+        });
+        return;
+    }
+
+    public void checkLocation() {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.e(ACTIVITY_NAME, "User has not granted location permissions.");
+            String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
+            EasyPermissions.requestPermissions(this, "Please grant the location permission", 1, perms);
+        }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        List<Address> address = null;
+                        if (location != null) {
+                            Log.i(ACTIVITY_NAME, "Found user Location");
+                            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                            //List<Address> address ;
+
+                            try {
+                                address = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                                currentAddress = address.get(0).getAddressLine(0);//address.get(0).toString();
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        //Log.i(ACTIVITY_NAME, currentAddress);
+                    }
+                });
+    }
 }
