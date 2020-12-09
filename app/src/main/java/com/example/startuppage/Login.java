@@ -84,17 +84,17 @@ public class Login extends AppCompatActivity {
                 String email = username.getEditText().getText().toString().trim();
                 String getPass = password.getEditText().getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     username.setError("Email is required");
                     return;
                 }
 
-                if (TextUtils.isEmpty(getPass)){
+                if (TextUtils.isEmpty(getPass)) {
                     password.setError("Password is required");
                     return;
                 }
 
-                if (getPass.length() < 6){
+                if (getPass.length() < 6) {
                     password.setError("Password must contain 6 or more characters");
                     return;
                 }
@@ -104,7 +104,7 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Login.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(Login.this, Timesheet.class);
+                            Intent i = new Intent(Login.this, MenuActivity.class);
                             i.putExtra("USERID", mAuth.getCurrentUser().getUid());
                             startActivity(i);
                         } else {

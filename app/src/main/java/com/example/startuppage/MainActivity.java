@@ -1,7 +1,5 @@
 package com.example.startuppage;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +8,8 @@ import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,15 +20,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         btn = findViewById(R.id.btnStart);
-        btn.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 Log.i(ACTIVITY_NAME, "User clicked Get Started");
                 Intent mIntent = new Intent(MainActivity.this, Login.class);
-                pair[0] = new Pair<View,String>(btn, "btn_trans");
-                ActivityOptions activityO1 = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,pair);
+                pair[0] = new Pair<View, String>(btn, "btn_trans");
+                ActivityOptions activityO1 = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pair);
                 startActivity(mIntent, activityO1.toBundle());
             }
         });
