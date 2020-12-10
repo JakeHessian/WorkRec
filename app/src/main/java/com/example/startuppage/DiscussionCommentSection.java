@@ -66,7 +66,7 @@ public class DiscussionCommentSection extends AppCompatActivity {
         TextView authorC = (TextView) findViewById(R.id.commentAuthor);
         TextView dateC = (TextView) findViewById(R.id.commentDate);
         TextView timeC = (TextView) findViewById(R.id.commentTime);
-        messageC.setText(post_id);
+        messageC.setText(message);
         authorC.setText(username);
         dateC.setText(date);
         timeC.setText(time);
