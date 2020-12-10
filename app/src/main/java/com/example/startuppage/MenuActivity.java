@@ -35,7 +35,7 @@ public class MenuActivity extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Logging out", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(MenuActivity.this, Login.class);
                 startActivity(i);
             }
@@ -45,7 +45,6 @@ public class MenuActivity extends AppCompatActivity {
         card1.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
 
 
                 Intent i = new Intent(MenuActivity.this, Discussion.class);
@@ -56,9 +55,7 @@ public class MenuActivity extends AppCompatActivity {
         card2.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
-
-
+                //Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(MenuActivity.this, Timesheet.class);
                 i.putExtra("USERID", userId);
                 startActivity(i);
@@ -68,7 +65,7 @@ public class MenuActivity extends AppCompatActivity {
         card3.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(MenuActivity.this, Reporting.class);
                 startActivity(i);
             }

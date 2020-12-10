@@ -232,7 +232,7 @@ public class Timesheet extends AppCompatActivity {
         clockOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (timeView.getText().toString().compareTo("Clocked out") != 0) {
+                if (timeView.getText().toString().compareTo("Clocked out") != 0 && inOutFlag == true) {
                     checkLocation();
                     Log.i(ACTIVITY_NAME, "work address: " + workAddress);
                     Log.i(ACTIVITY_NAME, "current address " + currentAddress);
