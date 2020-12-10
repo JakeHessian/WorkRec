@@ -2,14 +2,14 @@
     <string name="app_name">WorkRec</string>
     <string name="getStarted">Get Started</string>
     <string name="title">Cheque-In</string>
-    <colour name="colourOne">#FFA500</colour>
-    <colour name="colourTwo">#000000</colour>
-    <colour name="colourText">#fffacd</colour>
+    <color name="colourOne">#FFA500</color>
+    <color name="colourTwo">#000000</color>
+    <color name="colourText">#fffacd</color>
     <string name="signIn">Sign In</string>
     <string name="signUp">Sign Up</string>
-    <colour name="greyBackground">#CCF5F5F5</colour>
-    <colour name="whiteString">#FFFFFF</colour>
-    <colour name="colourThree">#00FFFF</colour>
+    <color name="greyBackground">#CCF5F5F5</color>
+    <color name="whiteString">#FFFFFF</color>
+    <color name="colourThree">#00FFFF</color>
     <string name="login">Login</string>
     <string name="forgotPass">Forgot Password?</string>
     <string name="createAcc">Create Account</string>
@@ -81,5 +81,5 @@ Timesheet activity developed by: Jacob Hessian
     <string name="yyyy_mm_dd">yyyy/MM/dd</string>
     <string name="discussionHelp">Write a message and send it to your teams discussion board. Click on any post to add a comment to it and view other peoples comments or delete your own. \n\n
 Discussion activity developed by: Arman Aryanpour</string>
-    <string name="reportingHelp">Cheque the frequency of your timestamps for the month, or narrow it down to the day. In put a day, such as 9 in the field and click search. Click toggle to view different formats of graphs. Reporting activity developed by: Arman Aryanpour</string>
+    <string name="reportingHelp">Check the frequency of your timestamps for the month, or narrow it down to the day. In put a day, such as 9 in the field and click search. Click toggle to view different formats of graphs. Reporting activity developed by: Arman Aryanpour</string>
 </resources>
