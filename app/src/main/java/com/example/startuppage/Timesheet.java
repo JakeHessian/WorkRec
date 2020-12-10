@@ -434,7 +434,7 @@ public class Timesheet extends AppCompatActivity {
             String end = cursor.getString(cursor.getColumnIndex(TimesheetDatabaseHelper.KEY_END));
             String hours = cursor.getString(cursor.getColumnIndex(TimesheetDatabaseHelper.KEY_HOURS));
             String sick = cursor.getString(cursor.getColumnIndex((TimesheetDatabaseHelper.KEY_SICK)));
-            Log.i(ACTIVITY_NAME, "DB reads " + sick);
+            //Log.i(ACTIVITY_NAME, "DB reads " + sick);
             if (sick.compareTo("null") == 0) {
                 r = new Record(start, false);
                 r.date = date;
