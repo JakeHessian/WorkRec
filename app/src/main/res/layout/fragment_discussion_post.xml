@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DiscussionPost">
+
+   <LinearLayout
+       android:layout_width="match_parent" android:layout_margin="@dimen/activity_horizontal_margin"
+       android:layout_height="wrap_content" android:orientation="vertical">
+       <TextView
+           android:id="@+id/postAuthor" android:layout_marginBottom="5pt"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content" android:layout_marginLeft="2pt"
+           android:text="Author Name" />
+       <TextView
+           android:id="@+id/postContainer"
+           android:layout_width="match_parent" android:layout_marginLeft="7pt"
+           android:layout_height="wrap_content"
+           android:text="Message" />
+
+       <LinearLayout
+           android:layout_width="match_parent"              android:orientation="horizontal"
+
+           android:layout_height="wrap_content" >
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:gravity="end">
+           <TextView
+               android:id="@+id/postDate"
+               android:layout_width="wrap_content"                 android:layout_gravity="right"
+android:text="Date"
+               android:layout_height="wrap_content" /></RelativeLayout>
+           <TextView android:layout_marginLeft="5pt" android:layout_marginRight="5pt"
+           android:id="@+id/postTime"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+               android:text="Time"
+               android:layout_gravity="right"
+
+
+               />
+       </LinearLayout>
+
+   </LinearLayout>
+
+</FrameLayout>

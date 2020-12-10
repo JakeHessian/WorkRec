@@ -2,10 +2,15 @@ package com.example.startuppage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
@@ -55,6 +60,7 @@ public class Reporting extends AppCompatActivity {
     Boolean isBar = true;
     Float totalThisWeek;
     EditText currentSelectedDay;
+    Toolbar toolbar;
     String[] months = new String[]{
             "January",
             "February",
@@ -262,6 +268,10 @@ public class Reporting extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reporting);
+        toolbar = findViewById(R.id.reportingToolbar);
+        toolbar.inflateMenu(R.menu.reporting_toolbar);
+        toolbar.setTitle("Reporting");
+        setSupportActionBar(toolbar);
         currentSelectedDay = findViewById(R.id.searchField);
 //        Chart toggle
         Button chartToggle =  findViewById(R.id.chartToggle);
@@ -372,4 +382,27 @@ public class Reporting extends AppCompatActivity {
             return null;
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.reporting_toolbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.reportingHelpIcon:
+                Log.i("Reporting", "Launching help DialogFragment");
+                FragmentManager fm = getSupportFragmentManager();
+                String helpMessage = getResources().getString(R.string.reportingHelp);
+                reporting_help dialogFragment = reporting_help.newInstance(helpMessage);
+                dialogFragment.show(fm, "Dialog");
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }

@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">WorkRec</string>
     <string name="getStarted">Get Started</string>
-    <string name="title">Check-In</string>
-    <color name="colourOne">#FFA500</color>
-    <color name="colourTwo">#000000</color>
-    <color name="colourText">#fffacd</color>
+    <string name="title">Cheque-In</string>
+    <colour name="colourOne">#FFA500</colour>
+    <colour name="colourTwo">#000000</colour>
+    <colour name="colourText">#fffacd</colour>
     <string name="signIn">Sign In</string>
     <string name="signUp">Sign Up</string>
-    <color name="greyBackground">#CCF5F5F5</color>
-    <color name="whiteString">#FFFFFF</color>
-    <color name="colourThree">#00FFFF</color>
+    <colour name="greyBackground">#CCF5F5F5</colour>
+    <colour name="whiteString">#FFFFFF</colour>
+    <colour name="colourThree">#00FFFF</colour>
     <string name="login">Login</string>
     <string name="forgotPass">Forgot Password?</string>
     <string name="createAcc">Create Account</string>
@@ -29,7 +29,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <!--    issa's stuff-->
+    <!-- issa's stuff-->
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
@@ -71,15 +71,15 @@
     <string name="view_schedule">View Schedule</string>
     <string name="help">Help</string>
     <string name="timesheet_help">
-        Tap the clock in button to clock in.\nTo clock out tap the clock out button.\n\nThe app will automatically store your time record.\n\n
-        To add a sick day, tap the sick face on the Toolbar. Tap submit when you\'re ready to submit to firebase.\n\n
-        Timesheet activity developed by: Jacob Hessian
-    </string>
+Tap the clock in button to clock in.\nTo clock out tap the clock out button.\n\nThe app will automatically store your time record.\n\n
+To add a sick day, tap the sick face on the Toolbar. Tap submit when you\'re ready to submit to firebase.\n\n
+Timesheet activity developed by: Jacob Hessian
+</string>
     <string name="add_a_sick_day">Add a sick day:</string>
     <string name="typeMessage">Type a message</string>
     <string name="add_sick_day">Add Sick Day</string>
     <string name="yyyy_mm_dd">yyyy/MM/dd</string>
     <string name="discussionHelp">Write a message and send it to your teams discussion board. Click on any post to add a comment to it and view other peoples comments or delete your own. \n\n
-        Discussion activity developed by: Arman Aryanpour</string>
-    <string name="reportingHelp">Check the frequency of your timestamps for the month, or narrow it down to the day. In put a day, such as 9 in the field and click search. Click toggle to view different formats of graphs.    Reporting activity developed by: Arman Aryanpour</string>
+Discussion activity developed by: Arman Aryanpour</string>
+    <string name="reportingHelp">Cheque the frequency of your timestamps for the month, or narrow it down to the day. In put a day, such as 9 in the field and click search. Click toggle to view different formats of graphs. Reporting activity developed by: Arman Aryanpour</string>
 </resources>
